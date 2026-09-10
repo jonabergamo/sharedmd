@@ -1,0 +1,21 @@
+{
+  "name": "sharedmd",
+  "private": true,
+  "packageManager": "pnpm@11.1.2",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "test": "vitest run",
+    "typecheck": "pnpm -r typecheck",
+    "start": "node apps/server/dist/index.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "yjs": "^13.6.27"
+    }
+  }
+}
