@@ -31,6 +31,6 @@ export function getRecent(): Recent[] {
 
 export function touchRecent(id: string, title: string) {
   const rest = getRecent().filter((r) => r.id !== id)
-  const next = [{ id, title: title || "Untitled", at: Date.now() }, ...rest].slice(0, 12)
+  const next = [{ id, title, at: Date.now() }, ...rest].slice(0, 12)
   localStorage.setItem(RECENT_KEY, JSON.stringify(next))
 }

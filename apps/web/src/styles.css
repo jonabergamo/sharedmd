@@ -78,6 +78,10 @@ input {
   border-bottom: 1px solid var(--line); background: var(--panel);
 }
 .topbar .brand { font-weight: 700; color: var(--text); }
+.topbar .doc-title {
+  font-size: 14px; font-weight: 500; margin: 0; color: var(--muted);
+  max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 .topbar .ghost, .menu summary {
   border: 1px solid var(--line); background: transparent; color: var(--muted);
   padding: 4px 10px; border-radius: 8px; font-size: 13px; cursor: pointer; list-style: none;
@@ -164,6 +168,7 @@ input {
   .app { grid-template-rows: auto 1fr; }
   .topbar { flex-wrap: wrap; gap: 8px; padding: 8px 12px; }
   .topbar .room { display: none; }
+  .topbar .doc-title { max-width: 140px; }
   .seg { display: inline-flex; }
   .main { grid-template-columns: 1fr; }
   .main[data-show="write"] .pane.preview-pane { display: none; }

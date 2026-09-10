@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom"
 import { getRecent } from "../lib/user"
 
-export default function RoomsMenu({ current }: { current: string }) {
+export default function RoomsMenu({ current, title }: { current: string; title: string }) {
   const nav = useNavigate()
-  const rooms = getRecent()
+  const rooms = getRecent().map((r) => (r.id === current ? { ...r, title } : r))
+  if (!rooms.some((r) => r.id === current)) rooms.unshift({ id: current, title, at: Date.now() })
   const go = (e: React.MouseEvent, id: string) => {
     e.currentTarget.closest("details")?.removeAttribute("open")
     if (id !== current) nav(`/d/${id}`)

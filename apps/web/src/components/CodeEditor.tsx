@@ -42,6 +42,7 @@ export default function CodeEditor({ text, awareness }: Props) {
       parent: host.current!,
       state: EditorState.create({
         doc: text.toString(),
+        selection: { anchor: text.toString().split("\n")[0].length },
         extensions: [
           history(),
           drawSelection(),

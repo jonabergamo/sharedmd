@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { Navigate, useNavigate, useParams } from "react-router-dom"
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom"
 import { isRoomId, newRoomId } from "@sharedmd/shared"
 import { useRoom } from "../hooks/useRoom"
 import { getUser, setUserName, touchRecent } from "../lib/user"
-import { titleOf } from "../lib/markdown"
+import { useTitle } from "../hooks/useTitle"
 import { printPdf, saveMarkdown } from "../lib/download"
 import CodeEditor from "../components/CodeEditor"
 import Preview from "../components/Preview"
@@ -20,21 +20,28 @@ export default function Editor() {
 
 function Room({ id }: { id: string }) {
   const nav = useNavigate()
+  const fresh = Boolean(useLocation().state?.fresh)
   const [user, setUser] = useState(getUser)
   const { provider, status, peers, me } = useRoom(id, user)
   const text = provider.doc.getText("content")
+  const title = useTitle(text)
+
+  // only the tab that minted the room id seeds it, so two people opening a new link at once don't both insert
+  useEffect(() => {
+    if (!fresh) return
+    if (text.length === 0) text.insert(0, "# Untitled")
+    nav(`/d/${id}`, { replace: true, state: null })
+  }, [fresh, text, id, nav])
+
+  useEffect(() => {
+    document.title = `${title} · SharedMD`
+  }, [title])
   const [show, setShow] = useState<"write" | "preview">("write")
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
-    const remember = () => touchRecent(id, titleOf(text.toString()))
-    remember()
-    const t = setInterval(remember, 10_000)
-    return () => {
-      clearInterval(t)
-      remember()
-    }
-  }, [id, text])
+    if (status === "synced") touchRecent(id, title)
+  }, [id, title, status])
 
   useEffect(() => {
     const close = (e: PointerEvent) => {
@@ -52,9 +59,8 @@ function Room({ id }: { id: string }) {
     setTimeout(() => setCopied(false), 1200)
   }
 
-  const name = () => titleOf(text.toString()) || id
   const download = (e: React.MouseEvent, fn: (t: string, n: string) => void) => {
-    fn(text.toString(), name())
+    fn(text.toString(), title || id)
     e.currentTarget.closest("details")?.removeAttribute("open")
   }
 
@@ -62,11 +68,12 @@ function Room({ id }: { id: string }) {
     <div className="app">
       <header className="topbar">
         <span className="brand">SharedMD</span>
+        <h1 className="doc-title" title="The first line of the document is the title">{title}</h1>
         <button className="room" onClick={copyLink} title="Copy link">
           {copied ? "link copied" : `/d/${id}`}
         </button>
-        <button className="ghost" onClick={() => nav(`/d/${newRoomId()}`)} title="Start a new document">New</button>
-        <RoomsMenu current={id} />
+        <button className="ghost" onClick={() => nav(`/d/${newRoomId()}`, { state: { fresh: true } })} title="Start a new document">New</button>
+        <RoomsMenu current={id} title={title} />
         <details className="menu">
           <summary>Download</summary>
           <div>

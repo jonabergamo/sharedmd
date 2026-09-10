@@ -14,5 +14,5 @@ export const render = (src: string) => DOMPurify.sanitize(md.render(src), { ADD_
 
 export function titleOf(src: string) {
   const line = src.split("\n").find((l) => l.trim())
-  return line ? line.replace(/^#+\s*/, "").slice(0, 80) : ""
+  return line ? line.replace(/^#+\s*/, "").replace(/[*_`]/g, "").trim().slice(0, 80) : ""
 }
