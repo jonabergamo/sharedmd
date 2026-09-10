@@ -9,6 +9,8 @@ import CodeEditor from "../components/CodeEditor"
 import Preview from "../components/Preview"
 import Presence from "../components/Presence"
 import StatusPill from "../components/StatusPill"
+import ThemeMenu from "../components/ThemeMenu"
+import RoomsMenu from "../components/RoomsMenu"
 
 export default function Editor() {
   const { id } = useParams()
@@ -34,6 +36,16 @@ function Room({ id }: { id: string }) {
     }
   }, [id, text])
 
+  useEffect(() => {
+    const close = (e: PointerEvent) => {
+      document.querySelectorAll<HTMLDetailsElement>("details.menu[open]").forEach((d) => {
+        if (!d.contains(e.target as Node)) d.removeAttribute("open")
+      })
+    }
+    document.addEventListener("pointerdown", close)
+    return () => document.removeEventListener("pointerdown", close)
+  }, [])
+
   const copyLink = async () => {
     await navigator.clipboard.writeText(location.href)
     setCopied(true)
@@ -54,6 +66,7 @@ function Room({ id }: { id: string }) {
           {copied ? "link copied" : `/d/${id}`}
         </button>
         <button className="ghost" onClick={() => nav(`/d/${newRoomId()}`)} title="Start a new document">New</button>
+        <RoomsMenu current={id} />
         <details className="menu">
           <summary>Download</summary>
           <div>
@@ -66,6 +79,7 @@ function Room({ id }: { id: string }) {
           <button aria-pressed={show === "write"} onClick={() => setShow("write")}>Write</button>
           <button aria-pressed={show === "preview"} onClick={() => setShow("preview")}>Preview</button>
         </div>
+        <ThemeMenu />
         <Presence peers={peers} me={me} onRename={(n) => setUser(setUserName(n))} />
         <StatusPill status={status} />
       </header>

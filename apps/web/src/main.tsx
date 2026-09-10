@@ -3,7 +3,10 @@ import { createRoot } from "react-dom/client"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
 import Editor from "./pages/Editor"
+import { apply, load } from "./lib/theme"
 import "./styles.css"
+
+apply(load())
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
