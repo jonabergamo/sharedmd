@@ -21,10 +21,12 @@ const io = new Server(http, {
 
 let redis: Redis | null = null
 if (env.redisUrl) {
-  redis = new Redis(env.redisUrl, { lazyConnect: false, maxRetriesPerRequest: 3 })
+  // upstash only speaks tls, so a pasted redis:// url would just time out
+  const url = env.redisUrl.replace(/^redis:\/\/(?=.*upstash\.io)/, "rediss://")
+  redis = new Redis(url, { maxRetriesPerRequest: 3 })
   const sub = redis.duplicate()
   io.adapter(createAdapter(redis, sub))
-  redis.on("error", (e) => console.error("redis:", e.message))
+  for (const c of [redis, sub]) c.on("error", (e) => console.error("redis:", e.message))
 }
 
 const rooms = new Rooms(redis ? redisStore(redis) : memoryStore())
