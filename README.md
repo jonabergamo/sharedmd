@@ -60,7 +60,7 @@ The free instance sleeps after fifteen minutes without traffic. In memory rooms 
 
 ## Stack
 
-React, TypeScript, Vite, CodeMirror 6, Yjs, Socket.io, Node, Express, Redis, Fly.io.
+React, TypeScript, Vite, CodeMirror 6, Yjs, Socket.io, Node, Express, Redis, Render.
 
 ## What's missing
 
