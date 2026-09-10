@@ -1,6 +1,6 @@
 # SharedMD
 
-A markdown document you can write with other people at the same time. Open a link, start typing, and everyone in the room sees your keystrokes and your cursor. No accounts.
+A markdown document you can write with other people at the same time. Open the site and you land in a fresh document, or back in the last one you were in. Share the link, start typing, and everyone in the room sees your keystrokes and your cursor. Click your own avatar to change your name, and download the result as markdown or PDF. No accounts.
 
 Live at https://sharedmd.onrender.com. It runs on a free instance that sleeps when idle, so the first visit can take half a minute to wake up.
 

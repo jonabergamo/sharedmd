@@ -45,25 +45,6 @@ input {
   padding: 6px 10px;
 }
 
-/* landing */
-.landing {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 12vh 24px 48px;
-}
-.landing h1 { font-size: 40px; margin: 0 0 8px; letter-spacing: -0.02em; }
-.landing p.lead { color: var(--muted); margin: 0 0 28px; font-size: 17px; }
-.landing .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-.landing h2 { font-size: 13px; text-transform: none; color: var(--muted); margin: 40px 0 8px; font-weight: 500; }
-.recent { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
-.recent a {
-  display: flex; justify-content: space-between; gap: 12px;
-  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
-  color: var(--text); text-decoration: none; background: var(--panel);
-}
-.recent a:hover { border-color: var(--muted); }
-.recent time { color: var(--muted); font-size: 13px; white-space: nowrap; }
-.me { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
 /* editor page */
@@ -72,7 +53,21 @@ input {
   display: flex; align-items: center; gap: 12px; padding: 0 14px;
   border-bottom: 1px solid var(--line); background: var(--panel);
 }
-.topbar .brand { font-weight: 700; text-decoration: none; color: var(--text); }
+.topbar .brand { font-weight: 700; color: var(--text); }
+.topbar .ghost, .menu summary {
+  border: 1px solid var(--line); background: transparent; color: var(--muted);
+  padding: 4px 10px; border-radius: 8px; font-size: 13px; cursor: pointer; list-style: none;
+}
+.topbar .ghost:hover, .menu summary:hover, .menu[open] summary { color: var(--text); background: var(--bg); }
+.menu { position: relative; }
+.menu summary::-webkit-details-marker { display: none; }
+.menu > div {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 10; min-width: 160px;
+  display: grid; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.menu > div button { text-align: left; border: none; background: none; padding: 7px 10px; border-radius: 6px; font-size: 13px; color: var(--text); }
+.menu > div button:hover { background: var(--bg); }
 .topbar .room {
   font-family: var(--mono); font-size: 13px; color: var(--muted);
   border: none; padding: 4px 8px;
@@ -105,7 +100,14 @@ input {
 .preview .empty { color: var(--muted); }
 
 /* presence */
-.presence { display: flex; align-items: center; }
+.presence { display: flex; align-items: center; position: relative; }
+.presence button.chip { cursor: pointer; padding: 0; }
+.presence .rename {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 10;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.presence .rename input { width: 160px; }
 .presence .chip {
   width: 28px; height: 28px; border-radius: 50%; margin-left: -6px;
   display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff;
