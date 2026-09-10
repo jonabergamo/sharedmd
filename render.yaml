@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: sharedmd
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: REDIS_URL
+        sync: false
+      - key: ORIGIN
+        value: https://sharedmd.onrender.com

@@ -2,7 +2,7 @@
 
 A markdown document you can write with other people at the same time. Open a link, start typing, and everyone in the room sees your keystrokes and your cursor. No accounts.
 
-Live at https://sharedmd.fly.dev
+Live at https://sharedmd.onrender.com. It runs on a free instance that sleeps when idle, so the first visit can take half a minute to wake up.
 
 ## Why I built it
 
@@ -54,13 +54,9 @@ REDIS_URL=redis://localhost:6379 pnpm --filter @sharedmd/server dev
 
 ## Deploying
 
-One container serves the API, the sockets and the built frontend. Fly.io runs it as a single always on machine, because websockets and in memory rooms don't survive a machine going to sleep.
+One container serves the API, the sockets and the built frontend. `render.yaml` describes it as a Render web service on the free plan. In the Render dashboard pick New, then Blueprint, point it at this repo and set `REDIS_URL` when asked. Every push to main redeploys.
 
-```
-fly launch --no-deploy
-fly secrets set REDIS_URL=rediss://...
-fly deploy
-```
+The free instance sleeps after fifteen minutes without traffic. In memory rooms are lost when that happens, which is fine, because every document is already in Redis and reloads on the next visit. Websockets work on the free plan.
 
 ## Stack
 
