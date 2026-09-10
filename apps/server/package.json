@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=esm --packages=external --outfile=dist/index.js",
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=esm --external:express --external:socket.io --external:@socket.io/redis-adapter --external:ioredis --external:yjs --external:y-protocols --external:lib0 --outfile=dist/index.js",
     "typecheck": "tsc --noEmit",
     "start": "node dist/index.js"
   },
